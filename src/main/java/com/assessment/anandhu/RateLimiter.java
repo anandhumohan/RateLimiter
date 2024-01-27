@@ -23,7 +23,14 @@ public class RateLimiter {
         while(!requestedTimes.isEmpty() && requestedTimes.get(ipAddress).peek() - currentMillSec > timeWindow){
             requestedTimes.get(ipAddress).poll();
         }
-        return true;
+        boolean isAllow = false;
+
+        if(requestedTimes.get(ipAddress).peek() - currentMillSec < timeWindow){
+            requestedTimes.get(ipAddress).offer(currentMillSec);
+            isAllow = true;
+        }
+
+        return isAllow;
     }
 
 }
