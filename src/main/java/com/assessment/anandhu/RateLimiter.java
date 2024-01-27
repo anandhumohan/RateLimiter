@@ -19,15 +19,16 @@ public class RateLimiter {
 
     public synchronized boolean isAllowed(String ipAddress){
         Long currentMillSec = System.currentTimeMillis();
+        LinkedList<Long> times = requestedTimes.getOrDefault(ipAddress, new LinkedList<>());
 
-        while(!requestedTimes.isEmpty() && requestedTimes.get(ipAddress).peek() - currentMillSec > timeWindow){
-            requestedTimes.get(ipAddress).poll();
+
+        while(!times.isEmpty() && currentMillSec - times.peek() > timeWindow){
+            times.poll();
         }
-        boolean isAllow = false;
+        boolean isAllow = times.size() < rateLimit;;
 
-        if(requestedTimes.get(ipAddress).peek() - currentMillSec < timeWindow){
-            requestedTimes.get(ipAddress).offer(currentMillSec);
-            isAllow = true;
+        if(isAllow){
+            times.offer(currentMillSec);
         }
 
         return isAllow;
