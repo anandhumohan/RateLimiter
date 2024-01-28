@@ -21,7 +21,6 @@ public class RateLimiter {
         Long currentMillSec = System.currentTimeMillis();
         LinkedList<Long> times = requestedTimes.getOrDefault(ipAddress, new LinkedList<>());
 
-
         while(!times.isEmpty() && currentMillSec - times.peek() > timeWindow){
             times.poll();
         }
