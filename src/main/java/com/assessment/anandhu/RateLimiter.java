@@ -25,7 +25,6 @@ public class RateLimiter {
             times.poll();
         }
         boolean isAllow = times.size() < rateLimit;
-        ;
 
         if (isAllow) {
             times.offer(currentMillSec);
