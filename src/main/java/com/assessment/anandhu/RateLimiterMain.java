@@ -2,7 +2,6 @@ package com.assessment.anandhu;
 
 public class RateLimiterMain {
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("Hello world!");
         RateLimiter rateLimiter = new RateLimiter(10000L,5L);
 
         for (int i = 0; i < 10; i++) {
